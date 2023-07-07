@@ -5,6 +5,7 @@ var gameLevel = 0;
 var started = false;
 
 $(document).on("keypress", function () {
+
   if (!started) {
     $("#level-title").text("Level " + gameLevel);
     nextSequence();
@@ -13,8 +14,7 @@ $(document).on("keypress", function () {
 });
 
 function nextSequence() {
-  // Once nextSequence() is triggered, reset the userClickedPattern to an empty array ready for the next level.
-
+  // Once nextSequence() is triggered, userClickedPattern is set to an empty array ready for the next level.
   userClickedPattern = [];
 
   gameLevel++;
@@ -31,37 +31,22 @@ function nextSequence() {
   playSound(randomChosenColor);
 }
 
-$(".btn").on("click", function (e) {
+$(".btn").on("click", function () {
   var userChosenColour = $(this).attr("id");
 
   userClickedPattern.push(userChosenColour);
+
+  console.log(userClickedPattern.length - 1);
 
   playSound(userChosenColour);
   animatePress(userChosenColour);
   checkAnswer(userClickedPattern.length - 1);
 });
 
-
-function playSound(name) {
-  var audio = new Audio("sounds/" + name + ".mp3");
-  audio.play();
-}
-
-function animatePress(currentColor) {
-  $("#" + currentColor).addClass("pressed");
-
-  setTimeout(function () {
-    $("#" + currentColor).removeClass("pressed");
-  }, 100);
-}
-
 function checkAnswer(currentLevel) {
-  console.log(gamePattern[currentLevel]);
-  console.log(userClickedPattern[currentLevel]);
 
+  // line 49's if statement is checking both gamePattern and userClickedPattern at the array index specified at line 43 to make sure they are equal
   if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
-    console.log("correct");
-
     if (userClickedPattern.length === gamePattern.length) {
 
       setTimeout(function () {
@@ -73,7 +58,6 @@ function checkAnswer(currentLevel) {
   } else {
 
     playSound("wrong");
-
     $("body").addClass("game-over");
 
     setTimeout(function () {
@@ -92,5 +76,18 @@ function startOver() {
   gameLevel = 0;
   gamePattern = [];
   started = false;
+}
+
+function playSound(name) {
+  var audio = new Audio("sounds/" + name + ".mp3");
+  audio.play();
+}
+
+function animatePress(currentColor) {
+  $("#" + currentColor).addClass("pressed");
+
+  setTimeout(function () {
+    $("#" + currentColor).removeClass("pressed");
+  }, 100);
 }
 
