@@ -13,7 +13,7 @@ $(document).on("keypress", function () {
 });
 
 function nextSequence() {
-  //6. Once nextSequence() is triggered, reset the userClickedPattern to an empty array ready for the next level.
+  // Once nextSequence() is triggered, reset the userClickedPattern to an empty array ready for the next level.
 
   userClickedPattern = [];
 
@@ -81,5 +81,16 @@ function checkAnswer(currentLevel) {
     }, 200);
 
     $("#level-title").text("Game Over, Press Any Key to Restart");
+
+    startOver();
   }
 }
+
+function startOver() {
+  // resetting these values to restart the game
+
+  gameLevel = 0;
+  gamePattern = [];
+  started = false;
+}
+
